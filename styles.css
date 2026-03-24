@@ -11,6 +11,7 @@ body {
     background-color: #e5e5e5;
     background-image: radial-gradient(#b0b0b0 2px, transparent 2px);
     background-size: 30px 30px;
+    background-attachment: fixed;
     background-position: center;
     overflow-x: hidden;
 }
@@ -150,9 +151,201 @@ body {
 
 .about-section {
     padding: 100px 20px;
-    max-width: 800px;
+    max-width: 1400px;
     margin: 0 auto;
     font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.about-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.about-left,
+.about-right {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 20px;
+    z-index: 5;
+}
+
+.parallax-item {
+    transform: translateY(var(--scrollY, 0px)) rotate(var(--base-rotate, 0deg));
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rotate-left {
+    --base-rotate: -6deg;
+}
+
+.rotate-right {
+    --base-rotate: 8deg;
+}
+
+.right-tilt {
+    --base-rotate: 4deg;
+}
+
+.about-left img.floating-item {
+    width: 100%;
+    max-width: 380px;
+    filter: drop-shadow(4px 10px 15px rgba(0, 0, 0, 0.15));
+    cursor: pointer;
+}
+
+.about-left img.floating-item:hover {
+    transform: translateY(var(--scrollY, 0px)) scale(1.06) rotate(-2deg);
+    z-index: 10;
+}
+
+.scattered-icons-left {
+    position: relative;
+    margin-top: 60px;
+    width: 100%;
+    height: 350px;
+}
+
+.scattered-icons-left .icon {
+    position: absolute;
+    cursor: pointer;
+    filter: drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.15));
+}
+
+.scattered-icons-left .icon:nth-child(1) {
+    top: 0px;
+    left: 55%;
+    width: 55px;
+    height: 55px;
+    background: white;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+/* Notion */
+.scattered-icons-left .icon:nth-child(2) {
+    top: 100px;
+    left: 20%;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+}
+
+/* Github */
+.scattered-icons-left .icon:nth-child(3) {
+    top: 180px;
+    left: 60%;
+    width: 55px;
+    height: 55px;
+    padding: 12px;
+}
+
+/* Figma */
+.scattered-icons-left .icon:nth-child(4) {
+    top: 260px;
+    left: 30%;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+}
+
+/* LinkedIn */
+
+.scattered-icons-left .icon.bg-black {
+    background: #000;
+    border-radius: 14px;
+}
+
+.paintings-group {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    margin-bottom: 30px;
+}
+
+.painting {
+    position: absolute;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.p-top {
+    top: 0px;
+    right: 20%;
+    width: 110px;
+    z-index: 1;
+}
+
+.p-mid {
+    top: 100px;
+    left: 10%;
+    width: 140px;
+    z-index: 2;
+}
+
+.p-bot {
+    top: 120px;
+    right: 15%;
+    width: 140px;
+    z-index: 3;
+}
+
+.painting:hover {
+    z-index: 10;
+    transform: translateY(var(--scrollY, 0px)) scale(1.15) rotate(0deg);
+}
+
+.scattered-icons-right {
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+.scattered-icons-right .icon {
+    position: absolute;
+    cursor: pointer;
+    filter: drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.15));
+}
+
+.scattered-icons-right .icon:nth-child(1) {
+    top: 0px;
+    right: 5%;
+    width: 140px;
+}
+
+/* LeetCode */
+.scattered-icons-right .icon:nth-child(2) {
+    top: 100px;
+    left: 15%;
+    width: 65px;
+    height: 65px;
+}
+
+/* JS */
+.scattered-icons-right .icon:nth-child(3) {
+    top: 160px;
+    right: 20%;
+    width: 85px;
+    height: 85px;
+}
+
+/* C++ */
+.scattered-icons-right .icon:nth-child(4) {
+    top: 250px;
+    left: 28%;
+    width: 75px;
+    height: 75px;
+}
+
+/* React */
+
+.icon:hover {
+    z-index: 10;
+    transform: translateY(var(--scrollY, 0px)) scale(1.25) rotate(calc(var(--base-rotate, 0deg) * 1.5));
 }
 
 .projects-section {

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kartavya</title>
     <meta name="description" content="Portfolio of Kartavya, a Computer Science student and Full Stack Developer.">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Outfit:ital,wght@0,400;0,500;0,700;0,900;1,900&display=swap"
         rel="stylesheet">
@@ -51,23 +51,65 @@
     <!-- About Section -->
     <section id="about" class="about-section">
         <h2 class="section-title hollow-text animate-on-scroll">About</h2>
-        <div class="about-content">
-            <p class="animate-on-scroll delay-1">I am a <span class="highlight-blue">Computer Science</span> student
-                passionate about solving real-world problems using Data Structures and Algorithms. I enjoy building
-                scalable full-stack applications using React, Node.js, and modern web <span class="highlight-grey"
-                    id="tech-word">technologies.</span></p>
+        <div class="about-grid">
+            <div class="about-left">
+                <img src="assets/computer.png" class="floating-item parallax-item" data-speed="0.2"
+                    alt="Retro Computer">
 
-            <p class="animate-on-scroll delay-2">I have experience implementing core concepts like OOP, OS, DBMS,
-                and
-                Networking, and I actively practice DSA to strengthen my problem-solving skills.</p>
+                <div class="scattered-icons-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png"
+                        class="icon parallax-item" data-speed="0.15">
+                    <div class="icon bg-black parallax-item rotate-right" data-speed="-0.1">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
+                            style="filter: invert(1); width: 100%; height: 100%;">
+                    </div>
+                    <div class="icon bg-black parallax-item right-tilt" data-speed="-0.15">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg"
+                            style="width: 100%; height: 100%;">
+                    </div>
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg"
+                        class="icon parallax-item rotate-left" data-speed="0.05">
+                </div>
+            </div>
 
-            <p class="animate-on-scroll delay-3">I'm currently focused on building impactful projects and preparing for
-                <span class="underline-blue-scribble">software development<svg class="scribble-svg" viewBox="0 0 300 50"
-                        preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 5 10 Q 150 12 295 8 M 15 25 Q 150 27 290 23 M 5 40 Q 150 37 285 43" fill="none"
-                            stroke="#8daeff" stroke-width="4" stroke-linecap="round" />
-                    </svg></span> roles &#59;&#41;
-            </p>
+            <div class="about-content">
+                <p class="animate-on-scroll delay-1">I am a <span class="highlight-blue">Computer Science</span> student
+                    in Lovely Professional University passionate about building impactful and user-friendly web
+                    applications. I enjoy building scalable full-stack applications using React, Node.js, and modern web
+                    <span class="highlight-grey" id="tech-word">technologies.</span>
+                </p>
+
+                <p class="animate-on-scroll delay-2">I'm particularly interested in developing scalable web applications
+                    and exploring innovative solutions that blend technology with real-life needs. Alongside technical
+                    skills, I value adaptability, critical thinking, and continuous learning.</p>
+
+                <p class="animate-on-scroll delay-3">Currently, I'm seeking opportunities where I can grow as a
+                    developer, contribute to impactful projects, and <span
+                        class="underline-blue-scribble">collaborate<svg class="scribble-svg" viewBox="0 0 300 50"
+                            preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 5 10 Q 150 12 295 8 M 15 25 Q 150 27 290 23 M 5 40 Q 150 37 285 43" fill="none"
+                                stroke="#ff7c7c" stroke-width="4" stroke-linecap="round" />
+                        </svg></span> with like-minded individuals. ;&#41;</p>
+            </div>
+
+            <div class="about-right">
+                <div class="paintings-group">
+                    <img src="assets/painting2.png" class="painting p-top parallax-item rotate-right" data-speed="-0.1">
+                    <img src="assets/painting3.png" class="painting p-mid parallax-item" data-speed="0.15">
+                    <img src="assets/painting1.jpg" class="painting p-bot parallax-item rotate-left" data-speed="-0.05">
+                </div>
+
+                <div class="scattered-icons-right">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
+                        class="icon rect-icon parallax-item rotate-left" data-speed="0.2">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+                        class="icon parallax-item " data-speed="-0.1">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+                        class="icon parallax-item rotate-right" data-speed="0.1">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+                        class="icon parallax-item" data-speed="-0.15">
+                </div>
+            </div>
         </div>
     </section>
 
@@ -104,11 +146,11 @@
     <section id="skills" class="skills-section"
         style="padding: 50px 0 150px 0; margin-bottom: 80px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: transparent; overflow: hidden;">
         <div
-            style="transform: translateY(215px); position: relative; z-index: 10; width: 100%; margin-bottom: 0px; pointer-events: none;">
+            style="transform: translateY(120px); position: relative; z-index: 10; width: 100%; margin-bottom: 0px; pointer-events: none;">
             <h2 class="section-title hollow-text animate-on-scroll" style="margin-bottom: 0;">Skills</h2>
         </div>
         <iframe src="cabinet/index.html?v=3" frameborder="0" scrolling="no"
-            style="width: 100vw; height: 110vh; max-width: 100%; border: none;"></iframe>
+            style="width: 160vw; height: 120vh; max-width: 100%; border: none; margin-top: 80px;"></iframe>
     </section>
 
     <!-- Contact Section -->
@@ -191,7 +233,7 @@
         </div>
     </section>
 
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=7"></script>
 </body>
 
 </html>

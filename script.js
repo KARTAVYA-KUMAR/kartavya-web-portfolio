@@ -245,7 +245,7 @@ setInterval(updateLiveTime, 1000);
 updateLiveTime();
 
 // ---------------------------------------------
-// Hero Scroll Animation
+// Hero Scroll Animation & Parallax Engine
 // ---------------------------------------------
 let scrollTicking = false;
 window.addEventListener('scroll', () => {
@@ -256,13 +256,21 @@ window.addEventListener('scroll', () => {
             const fgTitleWrapper = document.querySelector('.fg-title-wrapper');
             
             if (bgTitle) {
-                // Adjust multiplier to control slide speed
                 bgTitle.style.transform = `translate3d(${scrollY * 1.5}px, 0, 0)`;
             }
             if (fgTitleWrapper) {
-                // Adjust multiplier to control slide speed
                 fgTitleWrapper.style.transform = `translate3d(${-scrollY * 1.5}px, 0, 0)`;
             }
+            
+            document.querySelectorAll('.parallax-item').forEach(item => {
+                const speed = parseFloat(item.getAttribute('data-speed')) || 0;
+                const rect = item.parentElement.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const yPos = (window.innerHeight - rect.top) * speed;
+                    item.style.setProperty('--scrollY', `${yPos}px`);
+                }
+            });
+
             scrollTicking = false;
         });
         scrollTicking = true;
