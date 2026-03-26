@@ -16,6 +16,38 @@ body {
     overflow-x: hidden;
 }
 
+.cv-btn {
+    position: fixed;
+    top: 20px;
+    right: 50px;
+    background-color: rgba(120, 120, 120, 0.95);
+    padding: 12px 30px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    transition: background-color 0.3s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease-out;
+    opacity: 1;
+}
+
+.cv-btn.hide-away {
+    transform: translateY(-50px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cv-btn:hover {
+    background-color: rgba(100, 100, 100, 0.95);
+    transform: translateY(-2px);
+}
+
 .navbar {
     position: fixed;
     top: 20px;
@@ -346,6 +378,27 @@ body {
 .icon:hover {
     z-index: 10;
     transform: translateY(var(--scrollY, 0px)) scale(1.25) rotate(calc(var(--base-rotate, 0deg) * 1.5));
+}
+
+.drag-instruction {
+    position: absolute;
+    right: 5vw;
+    top: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+    pointer-events: none;
+    transform: rotate(2deg);
+}
+
+.drag-text {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: #444;
+    margin-bottom: 2px;
+    margin-left: 20px;
+    font-family: 'Outfit', sans-serif;
 }
 
 .projects-section {
@@ -760,9 +813,4 @@ body {
         grid-template-columns: 1fr;
         gap: 60px;
     }
-}
-
-grid-template-columns: 1fr;
-gap: 60px;
-}
 }

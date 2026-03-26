@@ -2,10 +2,31 @@
 document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
+        const targetElement = document.querySelector(this.getAttribute('href'));
+        if (targetElement) {
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 2000; // 0.8 seconds duration for dynamic scrolling
+            let start = null;
+
+            window.requestAnimationFrame(function step(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+
+                // Ease in-out cubic function for elegant acceleration/deceleration
+                const easeInOutCubic = progress < duration / 2
+                    ? 4 * Math.pow(progress / duration, 3)
+                    : 1 - Math.pow(-2 * (progress / duration) + 2, 3) / 2;
+
+                const currentPosition = startPosition + distance * easeInOutCubic;
+                window.scrollTo(0, currentPosition);
+
+                if (progress < duration) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    window.scrollTo(0, targetPosition);
+                }
             });
         }
     });
@@ -42,7 +63,7 @@ hackerElements.forEach(el => {
     // Group characters into chunks depending on element (3 for bg-title, 2 for fg-title, 1 for section-title)
     const isBgTitle = el.classList.contains('bg-title');
     const isFgTitle = el.classList.contains('fg-title');
-    const regex = isBgTitle ? /.{1,3}/g : (isFgTitle ? /.{1,2}/g : /.{1,1}/g);
+    const regex = isBgTitle ? /.{1,4}/g : (isFgTitle ? /.{1,3}/g : /.{1,2}/g);
     const chunks = originalText.match(regex) || [];
 
     chunks.forEach(chunk => {
@@ -254,14 +275,23 @@ window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             const bgTitle = document.querySelector('.bg-title');
             const fgTitleWrapper = document.querySelector('.fg-title-wrapper');
-            
+
             if (bgTitle) {
                 bgTitle.style.transform = `translate3d(${scrollY * 1.5}px, 0, 0)`;
             }
             if (fgTitleWrapper) {
                 fgTitleWrapper.style.transform = `translate3d(${-scrollY * 1.5}px, 0, 0)`;
             }
-            
+
+            const cvBtn = document.querySelector('.cv-btn');
+            if (cvBtn) {
+                if (scrollY > window.innerHeight * 0.4) {
+                    cvBtn.classList.add('hide-away');
+                } else {
+                    cvBtn.classList.remove('hide-away');
+                }
+            }
+
             document.querySelectorAll('.parallax-item').forEach(item => {
                 const speed = parseFloat(item.getAttribute('data-speed')) || 0;
                 const rect = item.parentElement.getBoundingClientRect();
