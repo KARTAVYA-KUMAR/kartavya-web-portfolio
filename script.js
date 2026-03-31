@@ -93,6 +93,11 @@ hackerElements.forEach(el => {
         span.addEventListener('mouseenter', () => {
             clearInterval(span.hackerInterval);
 
+            // Only update the color of the specifically triggered chunk!
+            visibleEl.style.color = '#707072ff';
+            // visibleEl.style.textShadow = 'none'; // Temporarily drop heavy strokes if necessary, or just rely on inherited shadow! Keep inherited.
+            visibleEl.style.transition = 'color 0.1s ease';
+
             const scrambleAction = () => {
                 visibleEl.innerText = chunk.split('')
                     .map(char => char === ' ' ? ' ' : hackerLetters[Math.floor(Math.random() * hackerLetters.length)])
@@ -106,6 +111,10 @@ hackerElements.forEach(el => {
         span.addEventListener('mouseleave', () => {
             clearInterval(span.hackerInterval);
             visibleEl.innerText = chunk;
+            // Instantly revert to standard font color and hollow effect
+            visibleEl.style.color = '';
+            visibleEl.style.textShadow = '';
+            visibleEl.style.transition = 'color 0.4s ease'; // Smooth fade out
         });
 
         el.appendChild(span);
@@ -274,13 +283,13 @@ window.addEventListener('scroll', () => {
         window.requestAnimationFrame(() => {
             const scrollY = window.scrollY;
             const bgTitle = document.querySelector('.bg-title');
-            const fgTitleWrapper = document.querySelector('.fg-title-wrapper');
+            const fgTitle = document.querySelector('.fg-title');
 
             if (bgTitle) {
                 bgTitle.style.transform = `translate3d(${scrollY * 1.5}px, 0, 0)`;
             }
-            if (fgTitleWrapper) {
-                fgTitleWrapper.style.transform = `translate3d(${-scrollY * 1.5}px, 0, 0)`;
+            if (fgTitle) {
+                fgTitle.style.transform = `translate3d(${-scrollY * 1.5}px, 0, 0)`;
             }
 
             const cvBtn = document.querySelector('.cv-btn');
