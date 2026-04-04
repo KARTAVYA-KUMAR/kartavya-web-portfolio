@@ -8,11 +8,22 @@
 }
 
 body {
-    background-color: #e5e5e5;
-    background-image: radial-gradient(#b0b0b0 2px, transparent 2px);
-    background-size: 30px 30px;
+    background-color: #F0F0F0;
+    background-image:
+        repeating-linear-gradient(-45deg,
+            rgba(0, 0, 0, 0.04),
+            rgba(0, 0, 0, 0.04) 6px,
+            transparent 6px,
+            transparent 14px),
+        repeating-linear-gradient(-45deg,
+            rgba(0, 0, 0, 0.04),
+            rgba(0, 0, 0, 0.04) 6px,
+            transparent 6px,
+            transparent 14px);
+    background-size: 35px 100vh, 35px 100vh;
+    background-position: 8% 0, 70% 0;
+    background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center;
     overflow-x: hidden;
 }
 
@@ -20,7 +31,7 @@ body {
     position: fixed;
     top: 20px;
     right: 50px;
-    background-color: rgba(120, 120, 120, 0.95);
+    background-color: rgba(32, 32, 32, 0.95);
     padding: 12px 30px;
     border-radius: 30px;
     display: flex;
@@ -44,7 +55,7 @@ body {
 }
 
 .cv-btn:hover {
-    background-color: rgba(100, 100, 100, 0.95);
+    background-color: rgba(69, 68, 68, 0.95);
     transform: translateY(-2px);
 }
 
@@ -53,7 +64,7 @@ body {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(120, 120, 120, 0.95);
+    background-color: #333333;
     padding: 12px 40px;
     border-radius: 30px;
     display: flex;
@@ -90,6 +101,276 @@ body {
 .navbar a:hover::after {
     width: 100%;
     left: 0;
+}
+
+/* Bento Grid Hero Layout */
+.hero-bento {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.bento-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    grid-template-rows: 380px 70px 145px;
+    gap: 30px;
+    width: 95%;
+    max-width: 1250px;
+}
+
+/* Explicit mappings for 4 absolute grid divs allowing manual property edits */
+.grid-1-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-2-game {
+    grid-column: 1 / 2;
+    grid-row: 2 / 4;
+    width: 600px;
+    height: 100%;
+}
+
+.grid-3-photo {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-4-music {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    width: 550px;
+    height: 100%;
+    margin-left: -70px;
+    /* Adjust this negatively to push further left */
+}
+
+.bento-box {
+    background: #fff;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Softer drop shadow */
+    overflow: hidden;
+}
+
+/* 1) Black Title Box */
+.grid-1-title {
+    background: #323232;
+    color: #fff;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.b-hi,
+.b-role {
+    font-size: 1.95rem;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.2px;
+}
+
+#typewriter-hi {
+    height: 45px;
+    /* Extremely strict absolute pixel lock preventing flex justify-content: center from microscopically shifting baselines dynamically */
+    display: block;
+    /* Guarantees strict layout allocation independently from string contents natively */
+    white-space: nowrap;
+    /* Forces variable translation outputs mapped continuously inline suppressing accidental wrapping height shifts */
+}
+
+#typewriter-hi::after {
+    content: '|';
+    color: rgba(255, 255, 255, 0.8);
+    animation: blinkCursor 0.9s step-end infinite;
+    font-style: normal;
+    margin-left: 2px;
+    font-weight: 300;
+}
+
+@keyframes blinkCursor {
+    50% {
+        opacity: 0;
+    }
+}
+
+.b-name {
+    font-size: 5.5rem;
+    font-weight: 900;
+    font-style: italic;
+    margin-top: 15px;
+    margin-left: 100px;
+
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -1.5px;
+    /* Extremely tight typography identically mirroring pic 1 */
+}
+
+/* 2) Game Console Box */
+.grid-2-game {
+    padding: 0px 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Forces the whole content block centrally into the bounds logically */
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    /* Unlocks header forcing text to left padded boundary and button to right padded boundary natively */
+    margin-top: 25px;
+    /* Safely pushed down strictly without overflowing explicit 250px hard lock */
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #888888;
+    margin-bottom: 10px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.play-btn {
+    width: 32px;
+    height: 32px;
+    /* Inflates bounding box dimensions for user request */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    border: 1.5px solid #dcdcdc;
+    color: #888;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.play-btn:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.game-console {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.game-console pre {
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.35;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.music-canvas-wrap {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+canvas#musicCanvas {
+    display: block;
+}
+
+/* 3) Profile Photo Box */
+.grid-3-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.bento-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 4) Music Box */
+.grid-4-music {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.music-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #888;
+    margin-bottom: 25px;
+}
+
+.music-icons {
+    display: flex;
+    gap: 15px;
+    color: #bbb;
+}
+
+.music-body {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.album-art {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1aa2a9, #f76868);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.music-info {
+    flex-grow: 1;
+}
+
+.music-info strong {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.music-info p {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #888;
+    margin: 0;
+}
+
+.music-canvas-wrap {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+canvas#musicCanvas {
+    display: block;
 }
 
 .hero-section {
@@ -815,5 +1096,336 @@ body {
     .contact-container {
         grid-template-columns: 1fr;
         gap: 60px;
+    }
+}
+
+/* ============================================= */
+/* Dark Mode Toggle Button                       */
+/* ============================================= */
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 280px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(32, 32, 32, 0.95);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(69, 68, 68, 0.95);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+/* Sun shown in dark mode, Moon shown in light mode */
+.theme-toggle-btn .sun-icon {
+    display: none;
+}
+
+.theme-toggle-btn .moon-icon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle-btn .sun-icon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle-btn .moon-icon {
+    display: none;
+}
+
+/* ============================================= */
+/* Dark Mode Theme Overrides                     */
+/* ============================================= */
+
+/* Smooth transition on all theme-affected elements */
+body,
+.bento-box,
+.navbar,
+.cv-btn,
+.theme-toggle-btn,
+.project-info,
+.project-img-wrapper,
+.contact-section,
+.contact-btn,
+.about-content,
+.music-info strong,
+.game-header,
+.game-console pre,
+.highlight-grey,
+.skill-tag,
+.play-btn,
+.hollow-text {
+    transition-property: background-color, color, border-color, box-shadow, text-shadow;
+    transition-duration: 0.4s;
+    transition-timing-function: ease;
+}
+
+[data-theme="dark"] body {
+    background-color: #121214;
+    color: #ffffff;
+    background-image:
+        repeating-linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.08) 6px,
+            transparent 6px,
+            transparent 14px),
+        repeating-linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.08) 6px,
+            transparent 6px,
+            transparent 14px);
+    background-size: 35px 100vh, 35px 100vh;
+    background-position: 8% 0, 70% 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Global white text for all headings and paragraphs in dark mode */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] label,
+[data-theme="dark"] a {
+    color: #ffffff;
+}
+
+/* Keep navbar links white (already white) */
+[data-theme="dark"] .navbar a {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .navbar a:hover {
+    color: #ffd;
+}
+
+/* Navbar */
+[data-theme="dark"] .navbar {
+    background-color: rgba(25, 25, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* CV Button */
+[data-theme="dark"] .cv-btn {
+    background-color: rgba(35, 35, 40, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .cv-btn:hover {
+    background-color: rgba(55, 55, 60, 0.95);
+}
+
+/* Theme toggle in dark */
+[data-theme="dark"] .theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f5c542;
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* Bento Boxes */
+[data-theme="dark"] .bento-box {
+    background: #1c1c20;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Title box becomes white in dark mode with black text */
+[data-theme="dark"] .grid-1-title {
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .grid-1-title .b-hi,
+[data-theme="dark"] .grid-1-title .b-role,
+[data-theme="dark"] .grid-1-title .b-name,
+[data-theme="dark"] .grid-1-title span,
+[data-theme="dark"] .grid-1-title * {
+    color: #111111 !important;
+}
+
+[data-theme="dark"] .grid-1-title #typewriter-hi::after {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Game Console */
+[data-theme="dark"] .game-header {
+    color: #aaa;
+}
+
+[data-theme="dark"] .game-console pre {
+    color: #bbb;
+}
+
+[data-theme="dark"] .play-btn {
+    border-color: #555;
+    color: #aaa;
+}
+
+[data-theme="dark"] .play-btn:hover {
+    background: #2a2a2e;
+    color: #ccc;
+}
+
+/* Photo Box */
+[data-theme="dark"] .grid-3-photo {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Music Box */
+[data-theme="dark"] .music-header {
+    color: #aaa;
+}
+
+[data-theme="dark"] .music-icons {
+    color: #888;
+}
+
+[data-theme="dark"] .music-info strong {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .music-info p {
+    color: #aaa;
+}
+
+/* About Section */
+[data-theme="dark"] .about-content {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .about-content p {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .highlight-blue::before {
+    background-color: #4a6fad;
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .highlight-blue {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .highlight-grey {
+    background-color: #555;
+    color: #ffffff;
+}
+
+/* Hollow/Section Titles — black strokes in dark mode */
+[data-theme="dark"] .hollow-text {
+    color: white;
+    text-shadow:
+        1.5px 1.5px 0 #000000,
+        -1.5px -1.5px 0 #000000,
+        1.5px -1.5px 0 #000000,
+        -1.5px 1.5px 0 #000000,
+        1.5px 0 0 #000000,
+        -1.5px 0 0 #000000,
+        0 1.5px 0 #000000,
+        0 -1.5px 0 #000000,
+        6px 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Projects Section */
+[data-theme="dark"] .project-img-wrapper {
+    background-color: #2a2a2e;
+}
+
+[data-theme="dark"] .project-card:hover .project-img-wrapper {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .project-info {
+    background-color: #2a2a2e;
+}
+
+/* Skills Section */
+[data-theme="dark"] .skill-tag {
+    background-color: #3a5296;
+    color: #e8e8e8;
+}
+
+[data-theme="dark"] .skill-tag:hover {
+    background-color: #4d6bc4;
+    box-shadow: 0 8px 20px rgba(77, 107, 196, 0.3);
+}
+
+/* Drag instruction */
+[data-theme="dark"] .drag-text {
+    color: #888;
+}
+
+[data-theme="dark"] .drag-arrow-svg path {
+    stroke: #888;
+}
+
+/* Contact Section — already dark, minor tweaks */
+[data-theme="dark"] .contact-section {
+    background-color: #0a0a0c;
+}
+
+[data-theme="dark"] .contact-btn {
+    background-color: #555;
+    color: #eee;
+}
+
+[data-theme="dark"] .contact-btn:hover {
+    background-color: #777;
+}
+
+/* Scattered icons in dark mode — subtle glow */
+[data-theme="dark"] .scattered-icons-left .icon,
+[data-theme="dark"] .scattered-icons-right .icon {
+    filter: drop-shadow(2px 5px 15px rgba(0, 0, 0, 0.4));
+}
+
+/* Paintings in dark mode */
+[data-theme="dark"] .painting {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* About floating item */
+[data-theme="dark"] .about-left img.floating-item {
+    filter: drop-shadow(4px 10px 15px rgba(0, 0, 0, 0.35));
+}
+
+/* Scribble SVG */
+[data-theme="dark"] .scribble-svg path {
+    stroke: #ff6b6b;
+}
+
+/* Crosshair color in dark mode handled via JS */
+
+/* Responsive dark mode toggle */
+@media (max-width: 768px) {
+    .theme-toggle-btn {
+        right: 15px;
+        top: 75px;
+        width: 42px;
+        height: 42px;
     }
 }

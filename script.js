@@ -54,15 +54,15 @@ document.querySelectorAll('.animate-on-scroll').forEach(el => {
 
 // Hacker Text Effect on multi-character hover
 const hackerLetters = "!1@23#4$%5^&7*89(0)_-+=<,:;{[}}";
-const hackerElements = document.querySelectorAll('.bg-title, .fg-title, .section-title');
+const hackerElements = document.querySelectorAll('.b-role, .b-name, .section-title');
 
 hackerElements.forEach(el => {
     const originalText = el.innerText;
     el.innerHTML = '';
 
-    // Group characters into chunks depending on element (3 for bg-title, 2 for fg-title, 1 for section-title)
-    const isBgTitle = el.classList.contains('bg-title');
-    const isFgTitle = el.classList.contains('fg-title');
+    // Group characters into chunks depending on element (4 for b-role, 3 for b-name, 2 for section-title)
+    const isBgTitle = el.classList.contains('b-role');
+    const isFgTitle = el.classList.contains('b-name');
     const regex = isBgTitle ? /.{1,4}/g : (isFgTitle ? /.{1,3}/g : /.{1,2}/g);
     const chunks = originalText.match(regex) || [];
 
@@ -94,7 +94,7 @@ hackerElements.forEach(el => {
             clearInterval(span.hackerInterval);
 
             // Only update the color of the specifically triggered chunk!
-            visibleEl.style.color = '#707072ff';
+            visibleEl.style.color = '#908d8dff';
             // visibleEl.style.textShadow = 'none'; // Temporarily drop heavy strokes if necessary, or just rely on inherited shadow! Keep inherited.
             visibleEl.style.transition = 'color 0.1s ease';
 
@@ -237,12 +237,12 @@ const drawCrosshair = () => {
         ctx.moveTo(crosshair.current.x, 0);
         ctx.lineTo(crosshair.current.x, h);
 
-        ctx.strokeStyle = '#837878';
+        ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#444' : '#837878';
         ctx.lineWidth = 1.25;
         ctx.stroke();
 
         // Exact intersection nexus square
-        ctx.fillStyle = '#837878';
+        ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#444' : '#837878';
         const squareSize = 6;
         ctx.fillRect(
             crosshair.current.x - squareSize / 2,
@@ -315,3 +315,283 @@ window.addEventListener('scroll', () => {
         scrollTicking = true;
     }
 });
+
+// --- ASCII Snake Game Engine ---
+const snakeWidth = 41;
+const snakeHeight = 4;
+
+let asciiSnake, snakeDir, nextSnakeDir, snakeApple, snakeScore, isGameOver;
+let asciiSnakeInterval;
+let isSnakePlaying = false;
+
+function initialSnakeRender() {
+    asciiSnake = [
+        { x: 15, y: 1 },
+        { x: 14, y: 1 },
+        { x: 13, y: 1 }
+    ];
+    snakeDir = { x: 1, y: 0 };
+    snakeScore = 0;
+    isGameOver = false;
+    snakeApple = { x: 23, y: 2 };
+    drawSnakeGame();
+}
+
+function initAsciiSnake() {
+    asciiSnake = [
+        { x: 15, y: 1 },
+        { x: 14, y: 1 },
+        { x: 13, y: 1 }
+    ];
+
+    snakeDir = { x: 1, y: 0 };
+    nextSnakeDir = { x: 1, y: 0 };
+
+    snakeApple = spawnSnakeApple();
+    snakeScore = 0;
+    isGameOver = false;
+    isSnakePlaying = true;
+
+    const statusEl = document.getElementById("status");
+    if (statusEl) statusEl.textContent = "";
+
+    if (asciiSnakeInterval) clearInterval(asciiSnakeInterval);
+    asciiSnakeInterval = setInterval(snakeGameLoop, 150);
+}
+
+function spawnSnakeApple() {
+    return {
+        x: Math.floor(Math.random() * snakeWidth),
+        y: Math.floor(Math.random() * snakeHeight)
+    };
+}
+
+function drawSnakeGame() {
+    let output = "";
+    output += "+-----------------------------------------+\n";
+    output += `|  Score: ${snakeScore} | Level: 1      Use Arrow     |\n`;
+    output += "+-----------------------------------------+\n";
+
+    for (let y = 0; y < snakeHeight; y++) {
+        let row = "|";
+
+        for (let x = 0; x < snakeWidth; x++) {
+            let isBody = asciiSnake.some(s => s.x === x && s.y === y);
+
+            if (isBody) row += "#";
+            else if (snakeApple.x === x && snakeApple.y === y) row += "@";
+            else row += " ";
+        }
+        row += "|\n";
+        output += row;
+    }
+    output += "+-----------------------------------------+";
+
+    const gameEl = document.getElementById("game");
+    if (gameEl) gameEl.textContent = output;
+}
+
+function updateSnakeGame() {
+    if (isGameOver || !isSnakePlaying) return;
+
+    snakeDir = nextSnakeDir;
+    let head = { x: asciiSnake[0].x + snakeDir.x, y: asciiSnake[0].y + snakeDir.y };
+
+    if (
+        head.x < 0 || head.y < 0 ||
+        head.x >= snakeWidth || head.y >= snakeHeight ||
+        asciiSnake.some(s => s.x === head.x && s.y === head.y)
+    ) {
+        isGameOver = true;
+        isSnakePlaying = false;
+        const statusEl = document.getElementById("status");
+        if (statusEl) statusEl.textContent = "GAME OVER!";
+        return;
+    }
+
+    asciiSnake.unshift(head);
+    if (head.x === snakeApple.x && head.y === snakeApple.y) {
+        snakeScore++;
+        snakeApple = spawnSnakeApple();
+    } else {
+        asciiSnake.pop();
+    }
+}
+
+// Global invocation linking backwards physically to html payload
+window.resetGame = function () {
+    initAsciiSnake();
+};
+
+document.addEventListener("keydown", e => {
+    if (isGameOver || !isSnakePlaying) return;
+    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    if (keys.includes(e.key)) {
+        e.preventDefault();
+    }
+
+    if (e.key === "ArrowUp" && snakeDir.y === 0) nextSnakeDir = { x: 0, y: -1 };
+    if (e.key === "ArrowDown" && snakeDir.y === 0) nextSnakeDir = { x: 0, y: 1 };
+    if (e.key === "ArrowLeft" && snakeDir.x === 0) nextSnakeDir = { x: -1, y: 0 };
+    if (e.key === "ArrowRight" && snakeDir.x === 0) nextSnakeDir = { x: 1, y: 0 };
+});
+
+function snakeGameLoop() {
+    updateSnakeGame();
+    drawSnakeGame();
+}
+
+// Fire independently out of bounds mapping to static rendering natively 
+if (document.getElementById("game")) {
+    initialSnakeRender();
+}
+
+// --- Typewriter Effect for Hero Title ---
+const greetingStrings = [
+    "Hi there, I'm",
+    "नमस्ते, मैं हूँ",
+    "Hola, soy",
+    "Salut, je suis",
+    "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ, ਮੈਂ ਹਾਂ"
+];
+let greetIdx = 0;
+let charIdx = 0;
+let isGreetDeleting = false;
+let typeSpeed = 100;
+
+function runTypewriter() {
+    const typeEl = document.getElementById("typewriter-hi");
+    if (!typeEl) return;
+
+    const currentStr = greetingStrings[greetIdx];
+
+    if (isGreetDeleting) {
+        typeEl.innerText = currentStr.substring(0, charIdx - 1);
+        charIdx--;
+        typeSpeed = 50;
+    } else {
+        typeEl.innerText = currentStr.substring(0, charIdx + 1);
+        charIdx++;
+        typeSpeed = 110;
+    }
+
+    if (!isGreetDeleting && charIdx === currentStr.length) {
+        isGreetDeleting = true;
+        typeSpeed = 2000;
+    } else if (isGreetDeleting && charIdx === 0) {
+        isGreetDeleting = false;
+        greetIdx = (greetIdx + 1) % greetingStrings.length;
+        typeSpeed = 600;
+    }
+
+    setTimeout(runTypewriter, typeSpeed);
+}
+
+if (document.getElementById("typewriter-hi")) {
+    // We already have "Hi there, I'm" directly in HTML, so we start deleting instead of typing!
+    charIdx = greetingStrings[0].length;
+    isGreetDeleting = true;
+    setTimeout(runTypewriter, 2000); // 2 second reading gap before first backspace
+}
+
+// --- Alphabet Music Bars Canvas ---
+function initMusicCanvas() {
+    const canvas = document.getElementById("musicCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    // We rely on HTML width="220" and height="70"
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
+    const columns = 13;
+    const maxRows = 6; // Natively constrained safely avoiding clipping
+
+    const cellWidth = canvasWidth / columns;
+    const cellHeight = canvasHeight / maxRows;
+
+    const baseLetters = "qazw['fsxedcrfvtg{?/}-=_=byhnujmikolp";
+
+    let grid = [];
+    for (let i = 0; i < columns; i++) {
+        grid[i] = [];
+        for (let j = 0; j < maxRows; j++) {
+            grid[i][j] = baseLetters[(i + j) % baseLetters.length];
+        }
+    }
+
+    let offsets = [];
+    for (let i = 0; i < columns; i++) {
+        offsets.push(Math.random() * Math.PI * 2);
+    }
+
+    let time = 0;
+
+    function animateMusicBars() {
+        requestAnimationFrame(animateMusicBars);
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        // Inherit exact font rendering params from HTML smoothly targeting user image context
+        ctx.fillStyle = "#666";
+        ctx.font = "12px monospace";
+        ctx.textAlign = "center";
+
+        for (let i = 0; i < columns; i++) {
+            let columnHeight;
+            if (i === 1) columnHeight = Math.round((4 / 10) * maxRows + Math.sin(time + offsets[i]) * 1);
+            else if (i === 4) columnHeight = Math.round((6 / 10) * maxRows + Math.sin(time + offsets[i]) * 1);
+            else if (i === 6) columnHeight = Math.round((3 / 10) * maxRows + Math.sin(time + offsets[i]) * 1);
+            else if (i === 9) columnHeight = Math.round((7 / 10) * maxRows + Math.sin(time + offsets[i]) * 1);
+            else if (i === 10) columnHeight = Math.round((2 / 10) * maxRows + Math.sin(time + offsets[i]) * 1);
+            else columnHeight = Math.round(((Math.sin(time + offsets[i]) + 1) / 2) * maxRows);
+
+            columnHeight = Math.max(0, Math.min(columnHeight, maxRows));
+
+            for (let j = 0; j < columnHeight; j++) {
+                let x = i * cellWidth + cellWidth / 2;
+                let y = canvasHeight - (j * cellHeight) - 2;
+                ctx.fillText(grid[i][j], x, y);
+            }
+        }
+        time += 0.15;
+    }
+    animateMusicBars();
+}
+
+if (document.getElementById("musicCanvas")) {
+    initMusicCanvas();
+}
+
+// ---------------------------------------------
+// Dark Mode Toggle
+// ---------------------------------------------
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+// Apply saved theme on load (prevents flash)
+(function applyStoredTheme() {
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+})();
+
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('portfolio-theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('portfolio-theme', 'dark');
+        }
+
+        // Rotate animation on the button
+        themeToggleBtn.style.transform = 'rotate(360deg)';
+        setTimeout(() => {
+            themeToggleBtn.style.transform = '';
+        }, 400);
+    });
+}
