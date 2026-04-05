@@ -182,80 +182,64 @@ window.addEventListener("message", (e) => {
 });
 
 // ---------------------------------------------
-// Interactive Crosshair Canvas Cursor
+// Custom Circle Cursor
 // ---------------------------------------------
-const canvas = document.getElementById("cursor-canvas");
-const ctx = canvas.getContext("2d");
+const cursorOutline = document.getElementById('cursor-outline');
 
-let w = window.innerWidth;
-let h = window.innerHeight;
-canvas.width = w;
-canvas.height = h;
-
-window.addEventListener("resize", () => {
-    w = window.innerWidth;
-    h = window.innerHeight;
-    canvas.width = w;
-    canvas.height = h;
-});
-
-const crosshair = {
-    current: { x: w / 2, y: h / 2 },
-    target: { x: w / 2, y: h / 2 },
-    active: false
+const crosshair = { // Keep this name for backward compatibility with iframe scrolling code
+    current: { x: -100, y: -100 },
+    target: { x: -100, y: -100 },
+    active: false,
+    hovering: false
 };
 
-window.addEventListener("mousemove", (e) => {
+const lerp = (start, end, factor) => start + (end - start) * factor;
+
+window.addEventListener('mousemove', (e) => {
     crosshair.active = true;
     crosshair.target.x = e.clientX;
     crosshair.target.y = e.clientY;
 });
 
-window.addEventListener("mouseout", (e) => {
+window.addEventListener('mouseout', (e) => {
     if (!e.relatedTarget && !e.toElement) {
         crosshair.active = false;
+        if (cursorOutline) cursorOutline.style.opacity = '0';
     }
 });
 
-const lerp = (start, end, factor) => {
-    return start + (end - start) * factor;
-};
+// Hover detection for interactive elements
+const interactiveSelectors = 'a, button, input, textarea, select, .play-btn, .project-card, .icon, .painting, .cv-btn, .theme-toggle-btn, .contact-btn, .navbar a, [onclick]';
 
-const drawCrosshair = () => {
-    ctx.clearRect(0, 0, w, h);
+document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactiveSelectors)) {
+        crosshair.hovering = true;
+        if (cursorOutline) cursorOutline.classList.add('cursor-hover');
+    }
+});
 
-    // Smooth physics lag mapped natively to standard coordinates
+document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(interactiveSelectors)) {
+        crosshair.hovering = false;
+        if (cursorOutline) cursorOutline.classList.remove('cursor-hover');
+    }
+});
+
+// Smooth animation loop for the outline ring
+function animateCursor() {
     crosshair.current.x = lerp(crosshair.current.x, crosshair.target.x, 0.15);
     crosshair.current.y = lerp(crosshair.current.y, crosshair.target.y, 0.15);
 
-    if (crosshair.active) {
-        ctx.beginPath();
-        // Horizontal axis
-        ctx.moveTo(0, crosshair.current.y);
-        ctx.lineTo(w, crosshair.current.y);
-        // Vertical axis
-        ctx.moveTo(crosshair.current.x, 0);
-        ctx.lineTo(crosshair.current.x, h);
-
-        ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#444' : '#837878';
-        ctx.lineWidth = 1.25;
-        ctx.stroke();
-
-        // Exact intersection nexus square
-        ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#444' : '#837878';
-        const squareSize = 6;
-        ctx.fillRect(
-            crosshair.current.x - squareSize / 2,
-            crosshair.current.y - squareSize / 2,
-            squareSize,
-            squareSize
-        );
+    if (cursorOutline && crosshair.active) {
+        cursorOutline.style.left = crosshair.current.x + 'px';
+        cursorOutline.style.top = crosshair.current.y + 'px';
+        cursorOutline.style.opacity = '1';
     }
 
-    requestAnimationFrame(drawCrosshair);
-};
+    requestAnimationFrame(animateCursor);
+}
 
-drawCrosshair();
+animateCursor();
 
 // ---------------------------------------------
 // Live Time in Hero Section

@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kartavya</title>
     <meta name="description" content="Portfolio of Kartavya, a Computer Science student and Full Stack Developer.">
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=13">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Outfit:ital,wght@0,400;0,500;0,700;0,900;1,900&display=swap"
         rel="stylesheet">
     <script>
         // Prevent flash of wrong theme
-        (function() {
+        (function () {
             if (localStorage.getItem('portfolio-theme') === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
@@ -21,9 +21,8 @@
 </head>
 
 <body>
-    <!-- Global Interactive Canvas Cursor -->
-    <canvas id="cursor-canvas"
-        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999;"></canvas>
+    <!-- Custom Cursor Setup -->
+    <div id="cursor-outline" class="cursor-outline"></div>
 
     <!-- Navbar -->
     <nav class="navbar">
@@ -128,7 +127,9 @@
                     </div>
                 </div>
                 <div class="music-body">
-                    <div class="album-art" style="background-image: url('assets/die_with_a_smile.png'); background-size: cover; background-position: center;"></div>
+                    <div class="album-art"
+                        style="background-image: url('assets/die_with_a_smile.png'); background-size: cover; background-position: center;">
+                    </div>
                     <div class="music-info">
                         <strong>Die With A Smile</strong>
                         <p>LADY GAGA, BRUNO MARS</p>
@@ -342,7 +343,7 @@
         </div>
     </section>
 
-    <script src="script.js?v=12"></script>
+    <script src="script.js?v=13"></script>
 </body>
 
 </html>
