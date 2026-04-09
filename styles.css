@@ -1140,9 +1140,14 @@ canvas#musicCanvas {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+    transition: background-color 0.3s, transform 0.6s cubic-bezier(0.20, 1, 0.6, 1), box-shadow 0.3s, right 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     color: white;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle-btn.slide-right {
+    right: 50px;
+    /* Slides into the exact space the CV button leaves */
 }
 
 .theme-toggle-btn:hover {
@@ -1180,8 +1185,6 @@ canvas#musicCanvas {
 body,
 .bento-box,
 .navbar,
-.cv-btn,
-.theme-toggle-btn,
 .project-info,
 .project-img-wrapper,
 .contact-section,
@@ -1444,7 +1447,9 @@ body,
 /* Cursor color adapts dynamically using mix-blend-mode */
 /* Responsive dark mode toggle */
 @media (max-width: 768px) {
-    .theme-toggle-btn {
+
+    .theme-toggle-btn,
+    .theme-toggle-btn.slide-right {
         right: 15px;
         top: 75px;
         width: 42px;

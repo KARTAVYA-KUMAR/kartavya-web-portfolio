@@ -277,11 +277,15 @@ window.addEventListener('scroll', () => {
             }
 
             const cvBtn = document.querySelector('.cv-btn');
+            const themeBtn = document.querySelector('.theme-toggle-btn');
+
             if (cvBtn) {
                 if (scrollY > window.innerHeight * 0.4) {
                     cvBtn.classList.add('hide-away');
+                    if (themeBtn) themeBtn.classList.add('slide-right');
                 } else {
                     cvBtn.classList.remove('hide-away');
+                    if (themeBtn) themeBtn.classList.remove('slide-right');
                 }
             }
 
@@ -362,7 +366,7 @@ function drawSnakeGame() {
         for (let x = 0; x < snakeWidth; x++) {
             let isBody = asciiSnake.some(s => s.x === x && s.y === y);
 
-            if (isBody) row += "#";
+            if (isBody) row += "O";
             else if (snakeApple.x === x && snakeApple.y === y) row += "@";
             else row += " ";
         }
