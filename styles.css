@@ -288,17 +288,24 @@ body {
 
 .game-console {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
+    container-type: inline-size;
 }
 
 .game-console pre {
     font-family: 'Courier New', monospace;
-    font-size: 0.95rem;
+    font-size: min(0.95rem, 4cqw);
     color: #666;
     line-height: 1.35;
     margin: 0;
-    white-space: pre-wrap;
+    white-space: pre;
+}
+
+.mobile-dpad {
+    display: none;
 }
 
 .music-canvas-wrap {
@@ -927,36 +934,7 @@ canvas#musicCanvas {
     transition-delay: 0.3s;
 }
 
-@media (max-width: 768px) {
-    .bg-title {
-        font-size: 11vw;
-        top: 12%;
-    }
 
-    .fg-title {
-        font-size: 13vw;
-    }
-
-    .navbar {
-        padding: 10px 20px;
-        gap: 20px;
-        width: 90%;
-        justify-content: center;
-    }
-
-    .projects-grid {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .about-content {
-        font-size: 1.2rem;
-    }
-
-    .line3 {
-        width: 95%;
-    }
-}
 
 /* Contact Footer Section */
 .contact-section {
@@ -1115,12 +1093,7 @@ canvas#musicCanvas {
     color: #fff;
 }
 
-@media (max-width: 900px) {
-    .contact-container {
-        grid-template-columns: 1fr;
-        gap: 60px;
-    }
-}
+
 
 /* ============================================= */
 /* Dark Mode Toggle Button                       */
@@ -1446,13 +1419,62 @@ body,
 
 /* Cursor color adapts dynamically using mix-blend-mode */
 /* Responsive dark mode toggle */
-@media (max-width: 768px) {
 
-    .theme-toggle-btn,
-    .theme-toggle-btn.slide-right {
-        right: 15px;
-        top: 75px;
-        width: 42px;
-        height: 42px;
+
+/* ============================================= */
+/* Responsive Layout Breakpoints                 */
+/* ============================================= */
+
+
+
+/* Mobile D-Pad Control Visibility on Touch */
+@media (hover: none) and (pointer: coarse) {
+    .mobile-dpad {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+    }
+    
+    .dpad-row {
+        display: flex;
+        gap: 40px;
+    }
+    
+    .mobile-dpad button {
+        background: rgba(180, 180, 180, 0.4);
+        backdrop-filter: blur(4px);
+        border: 4px solid rgba(130, 130, 130, 0.7);
+        color: #fff;
+        text-shadow: 0 0 8px rgba(0,0,0,0.4);
+        width: 130px;
+        height: 130px;
+        border-radius: 30px;
+        font-size: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.1s;
+    }
+    
+    .mobile-dpad button:active {
+        background: rgba(180, 180, 180, 0.8);
+        transform: scale(0.92);
+    }
+    
+    [data-theme="dark"] .mobile-dpad button {
+        color: #fff;
+        border-color: rgba(220, 220, 220, 0.6);
+        background: rgba(40, 40, 40, 0.5);
+    }
+    [data-theme="dark"] .mobile-dpad button:active {
+        background: rgba(80, 80, 80, 0.8);
     }
 }

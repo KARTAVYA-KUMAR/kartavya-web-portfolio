@@ -344,7 +344,7 @@ function initAsciiSnake() {
     if (statusEl) statusEl.textContent = "";
 
     if (asciiSnakeInterval) clearInterval(asciiSnakeInterval);
-    asciiSnakeInterval = setInterval(snakeGameLoop, 150);
+    asciiSnakeInterval = setInterval(snakeGameLoop, 220); // Slowed down from 150
 }
 
 function spawnSnakeApple() {
@@ -423,6 +423,20 @@ document.addEventListener("keydown", e => {
     if (e.key === "ArrowLeft" && snakeDir.x === 0) nextSnakeDir = { x: -1, y: 0 };
     if (e.key === "ArrowRight" && snakeDir.x === 0) nextSnakeDir = { x: 1, y: 0 };
 });
+
+// Mobile D-Pad Handlers
+function setupMobileDPad() {
+    const btnUp = document.getElementById('btn-up');
+    const btnDown = document.getElementById('btn-down');
+    const btnLeft = document.getElementById('btn-left');
+    const btnRight = document.getElementById('btn-right');
+
+    if(btnUp) btnUp.addEventListener('touchstart', (e) => { e.preventDefault(); if (!isGameOver && isSnakePlaying && snakeDir.y === 0) nextSnakeDir = { x: 0, y: -1 }; });
+    if(btnDown) btnDown.addEventListener('touchstart', (e) => { e.preventDefault(); if (!isGameOver && isSnakePlaying && snakeDir.y === 0) nextSnakeDir = { x: 0, y: 1 }; });
+    if(btnLeft) btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); if (!isGameOver && isSnakePlaying && snakeDir.x === 0) nextSnakeDir = { x: -1, y: 0 }; });
+    if(btnRight) btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); if (!isGameOver && isSnakePlaying && snakeDir.x === 0) nextSnakeDir = { x: 1, y: 0 }; });
+}
+setupMobileDPad();
 
 function snakeGameLoop() {
     updateSnakeGame();
